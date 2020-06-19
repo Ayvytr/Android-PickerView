@@ -24,9 +24,9 @@ import java.util.Date;
  */
 public class TimePickerView extends BasePickerView implements View.OnClickListener {
 
-    private WheelTime wheelTime; //自定义控件
-    private static final String TAG_SUBMIT = "submit";
-    private static final String TAG_CANCEL = "cancel";
+    protected WheelTime wheelTime; //自定义控件
+    protected static final String TAG_SUBMIT = "submit";
+    protected static final String TAG_CANCEL = "cancel";
 
     public TimePickerView(PickerOptions pickerOptions) {
         super(pickerOptions.context);
@@ -34,7 +34,7 @@ public class TimePickerView extends BasePickerView implements View.OnClickListen
         initView(pickerOptions.context);
     }
 
-    private void initView(Context context) {
+    protected void initView(Context context) {
         setDialogOutSideCancelable();
         initViews();
         initAnim();
@@ -82,7 +82,7 @@ public class TimePickerView extends BasePickerView implements View.OnClickListen
         initWheelTime(timePickerView);
     }
 
-    private void initWheelTime(LinearLayout timePickerView) {
+    protected void initWheelTime(LinearLayout timePickerView) {
         wheelTime = new WheelTime(timePickerView, mPickerOptions.type, mPickerOptions.textGravity, mPickerOptions.textSizeContent);
         if (mPickerOptions.timeSelectChangeListener != null) {
             wheelTime.setSelectChangeCallback(new ISelectTimeCallback() {
@@ -157,7 +157,7 @@ public class TimePickerView extends BasePickerView implements View.OnClickListen
     /**
      * 设置可以选择的时间范围, 要在setTime之前调用才有效果
      */
-    private void setRange() {
+    protected void setRange() {
         wheelTime.setStartYear(mPickerOptions.startYear);
         wheelTime.setEndYear(mPickerOptions.endYear);
 
@@ -166,12 +166,12 @@ public class TimePickerView extends BasePickerView implements View.OnClickListen
     /**
      * 设置可以选择的时间范围, 要在setTime之前调用才有效果
      */
-    private void setRangDate() {
+    protected void setRangDate() {
         wheelTime.setRangDate(mPickerOptions.startDate, mPickerOptions.endDate);
         initDefaultSelectedDate();
     }
 
-    private void initDefaultSelectedDate() {
+    protected void initDefaultSelectedDate() {
         //如果手动设置了时间范围
         if (mPickerOptions.startDate != null && mPickerOptions.endDate != null) {
             //若默认时间未设置，或者设置的默认时间越界了，则设置默认选中时间为开始时间。
@@ -190,7 +190,7 @@ public class TimePickerView extends BasePickerView implements View.OnClickListen
     /**
      * 设置选中时间,默认选中当前时间
      */
-    private void setTime() {
+    protected void setTime() {
         int year, month, day, hours, minute, seconds;
         Calendar calendar = Calendar.getInstance();
 

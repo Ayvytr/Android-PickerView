@@ -26,6 +26,7 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectChangeListener;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.listener.OnTimeSelectChangeListener;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.CustomTimePickerView;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.bigkoo.pickerviewdemo.bean.CardBean;
@@ -53,6 +54,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<String> food = new ArrayList<>();
     private ArrayList<String> clothes = new ArrayList<>();
     private ArrayList<String> computer = new ArrayList<>();
+    private Button btnCustom;
+
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +80,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn_no_linkage = (Button) findViewById(R.id.btn_no_linkage);
         Button btn_to_Fragment = (Button) findViewById(R.id.btn_fragment);
         Button btn_circle = (Button) findViewById(R.id.btn_circle);
+        btnCustom = findViewById(R.id.btn_custom);
+        btnCustom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCustomTimePicker();
+            }
+        });
 
 
         btn_Time.setOnClickListener(this);
@@ -88,6 +99,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         findViewById(R.id.btn_GotoJsonData).setOnClickListener(this);
         findViewById(R.id.btn_lunar).setOnClickListener(this);
+    }
+
+    private void showCustomTimePicker() {
+        Calendar start = Calendar.getInstance();
+        start.add(Calendar.YEAR, -1);
+        start.add(Calendar.MONTH, -1);
+        start.set(Calendar.DAY_OF_MONTH, 10);
+        start.set(Calendar.HOUR_OF_DAY, 10);
+        start.set(Calendar.MINUTE, 10);
+
+        Calendar end = Calendar.getInstance();
+        end.set(Calendar.YEAR, 2025);
+        end.set(Calendar.MONTH, 3);
+        end.set(Calendar.DAY_OF_MONTH, 8);
+        end.set(Calendar.HOUR_OF_DAY, 8);
+        end.set(Calendar.MINUTE, 8);
+
+        CustomTimePickerView pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {//选中事件回调 {
+                btnCustom.setText(sdf.format(date));
+            }
+        })
+                //                .setType(TimePickerView.Type.YEAR_MONTH_DAY)//默认全部显示
+                .setType(new boolean[]{true, true, true, true, true, false})//默认全部显示
+                .setCancelText("取消")//取消按钮文字
+                .setSubmitText("确定")//确认按钮文字
+                //                .setContentTextSize(20)//滚轮文字大小
+                //                .setTitleSize(20)//标题文字大小
+                //                   .setTitleText("请选择时间")//标题文字
+                .setOutSideCancelable(true)//点击屏幕，点在控件外部范围时，是否取消显示
+                .isCyclic(false)//是否循环滚动
+                //                   .setRange(calendar.get(Calendar.YEAR) - 20, calendar.get(Calendar.YEAR))//默认是1900-2100年
+                //           .setDate(calendar)// 如果不设置的话，默认是系统时间*/
+                .setRangDate(start, end, false)//起始终止年月日设定
+                //                   .setLabel("年","月","日","时","分","秒")
+                .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
+                //                   .isDialog(true)//是否显示为对话框样式
+//                .setTitleText(res.getString(R.string.select_predict_ship_date))
+                .buildCustom();
+        pvTime.setDate(Calendar.getInstance());//注：根据需求来决定是否使用该方法（一般是精确到秒的情况），此项可以在弹出选择器的时候重新设置当前时间，避免在初始化之后由于时间已经设定，导致选中时间与当前时间不匹配的问题。
+        pvTime.show();
     }
 
 

@@ -356,7 +356,7 @@ public class WheelView extends View {
                 public void run() {
                     onItemSelectedListener.onItemSelected(getCurrentItem());
                 }
-            }, 200L);
+            }, 0);
         }
     }
 

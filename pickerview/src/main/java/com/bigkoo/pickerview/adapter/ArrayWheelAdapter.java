@@ -41,4 +41,9 @@ public class ArrayWheelAdapter<T> implements WheelAdapter {
 		return items.indexOf(o);
 	}
 
+	@Override
+	public int indexOfValue(Object o) {
+	    return items.indexOf(o);
+	}
+
 }

@@ -20,35 +20,45 @@ import java.util.List;
 
 public class WheelTime {
     public static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private View view;
-    private WheelView wv_year;
-    private WheelView wv_month;
-    private WheelView wv_day;
-    private WheelView wv_hours;
-    private WheelView wv_minutes;
-    private WheelView wv_seconds;
-    private int gravity;
 
-    private boolean[] type;
-    private static final int DEFAULT_START_YEAR = 1900;
-    private static final int DEFAULT_END_YEAR = 2100;
-    private static final int DEFAULT_START_MONTH = 1;
-    private static final int DEFAULT_END_MONTH = 12;
-    private static final int DEFAULT_START_DAY = 1;
-    private static final int DEFAULT_END_DAY = 31;
+    protected View view;
+    protected WheelView wv_year;
+    protected WheelView wv_month;
+    protected WheelView wv_day;
+    protected WheelView wv_hours;
+    protected WheelView wv_minutes;
+    protected WheelView wv_seconds;
+    protected int gravity;
 
-    private int startYear = DEFAULT_START_YEAR;
-    private int endYear = DEFAULT_END_YEAR;
-    private int startMonth = DEFAULT_START_MONTH;
-    private int endMonth = DEFAULT_END_MONTH;
-    private int startDay = DEFAULT_START_DAY;
-    private int endDay = DEFAULT_END_DAY; //表示31天的
+    protected boolean[] type;
+    protected static final int DEFAULT_START_YEAR = 1900;
+    protected static final int DEFAULT_END_YEAR = 2100;
+    protected static final int DEFAULT_START_MONTH = 1;
+    protected static final int DEFAULT_END_MONTH = 12;
+    protected static final int DEFAULT_START_DAY = 1;
+    protected static final int DEFAULT_END_DAY = 31;
+    protected static final int DEFAULT_START_HOUR = 0;
+    protected static final int DEFAULT_END_HOUR = 23;
+    protected static final int DEFAULT_START_MINUTE = 0;
+    protected static final int DEFAULT_END_MINUTE = 59;
+
+    protected int startYear = DEFAULT_START_YEAR;
+    protected int endYear = DEFAULT_END_YEAR;
+    protected int startMonth = DEFAULT_START_MONTH;
+    protected int endMonth = DEFAULT_END_MONTH;
+    protected int startDay = DEFAULT_START_DAY;
+    protected int endDay = DEFAULT_END_DAY; //表示31天的
+    protected int startHour = DEFAULT_START_HOUR;
+    protected int endHour = DEFAULT_END_HOUR;
+    protected int startMinute = DEFAULT_START_MINUTE;
+    protected int endMinute = DEFAULT_END_MINUTE;
+
     private int currentYear;
 
-    private int textSize;
+    protected int textSize;
 
-    private boolean isLunarCalendar = false;
-    private ISelectTimeCallback mSelectChangeCallback;
+    protected boolean isLunarCalendar = false;
+    protected ISelectTimeCallback mSelectChangeCallback;
 
     public WheelTime(View view, boolean[] type, int gravity, int textSize) {
         super();
@@ -56,6 +66,12 @@ public class WheelTime {
         this.type = type;
         this.gravity = gravity;
         this.textSize = textSize;
+        wv_year = (WheelView) view.findViewById(R.id.year);
+        wv_month = (WheelView) view.findViewById(R.id.month);
+        wv_day = (WheelView) view.findViewById(R.id.day);
+        wv_hours = (WheelView) view.findViewById(R.id.hour);
+        wv_minutes = (WheelView) view.findViewById(R.id.min);
+        wv_seconds = (WheelView) view.findViewById(R.id.second);
     }
 
     public void setLunarMode(boolean isLunarCalendar) {
@@ -91,14 +107,12 @@ public class WheelTime {
      */
     private void setLunar(int year, final int month, int day, boolean isLeap, int h, int m, int s) {
         // 年
-        wv_year = (WheelView) view.findViewById(R.id.year);
         wv_year.setAdapter(new ArrayWheelAdapter(ChinaDate.getYears(startYear, endYear)));// 设置"年"的显示数据
         wv_year.setLabel("");// 添加文字
         wv_year.setCurrentItem(year - startYear);// 初始化时显示的数据
         wv_year.setGravity(gravity);
 
         // 月
-        wv_month = (WheelView) view.findViewById(R.id.month);
         wv_month.setAdapter(new ArrayWheelAdapter(ChinaDate.getMonths(year)));
         wv_month.setLabel("");
 
@@ -112,7 +126,6 @@ public class WheelTime {
         wv_month.setGravity(gravity);
 
         // 日
-        wv_day = (WheelView) view.findViewById(R.id.day);
         // 判断大小月及是否闰年,用来确定"日"的数据
         if (ChinaDate.leapMonth(year) == 0) {
             wv_day.setAdapter(new ArrayWheelAdapter(ChinaDate.getLunarDays(ChinaDate.monthDays(year, month))));
@@ -123,19 +136,16 @@ public class WheelTime {
         wv_day.setCurrentItem(day - 1);
         wv_day.setGravity(gravity);
 
-        wv_hours = (WheelView) view.findViewById(R.id.hour);
         wv_hours.setAdapter(new NumericWheelAdapter(0, 23));
         //wv_hours.setLabel(context.getString(R.string.pickerview_hours));// 添加文字
         wv_hours.setCurrentItem(h);
         wv_hours.setGravity(gravity);
 
-        wv_minutes = (WheelView) view.findViewById(R.id.min);
         wv_minutes.setAdapter(new NumericWheelAdapter(0, 59));
         //wv_minutes.setLabel(context.getString(R.string.pickerview_minutes));// 添加文字
         wv_minutes.setCurrentItem(m);
         wv_minutes.setGravity(gravity);
 
-        wv_seconds = (WheelView) view.findViewById(R.id.second);
         wv_seconds.setAdapter(new NumericWheelAdapter(0, 59));
         //wv_seconds.setLabel(context.getString(R.string.pickerview_minutes));// 添加文字
         wv_seconds.setCurrentItem(m);
@@ -227,6 +237,14 @@ public class WheelTime {
         setContentTextSize();
     }
 
+    protected boolean isLeapYear(int year) {
+        return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
+    }
+
+    final List<String> list_big = Arrays.asList("1", "3", "5", "7", "8", "10", "12");
+    final List<String> list_little = Arrays.asList("4", "6", "9", "11");
+    final List<Integer> smallMonth = Arrays.asList(4, 6, 9, 11);
+
     /**
      * 设置公历
      *
@@ -237,24 +255,13 @@ public class WheelTime {
      * @param m
      * @param s
      */
-    private void setSolar(int year, final int month, int day, int h, int m, int s) {
-        // 添加大小月月份并将其转换为list,方便之后的判断
-        String[] months_big = {"1", "3", "5", "7", "8", "10", "12"};
-        String[] months_little = {"4", "6", "9", "11"};
-
-        final List<String> list_big = Arrays.asList(months_big);
-        final List<String> list_little = Arrays.asList(months_little);
-
+    protected void setSolar(int year, final int month, int day, int h, int m, int s) {
         currentYear = year;
         // 年
-        wv_year = (WheelView) view.findViewById(R.id.year);
         wv_year.setAdapter(new NumericWheelAdapter(startYear, endYear));// 设置"年"的显示数据
-
-
         wv_year.setCurrentItem(year - startYear);// 初始化时显示的数据
         wv_year.setGravity(gravity);
         // 月
-        wv_month = (WheelView) view.findViewById(R.id.month);
         if (startYear == endYear) {//开始年等于终止年
             wv_month.setAdapter(new NumericWheelAdapter(startMonth, endMonth));
             wv_month.setCurrentItem(month + 1 - startMonth);
@@ -272,9 +279,8 @@ public class WheelTime {
         }
         wv_month.setGravity(gravity);
         // 日
-        wv_day = (WheelView) view.findViewById(R.id.day);
 
-        boolean leapYear = (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
+        boolean leapYear = isLeapYear(year);
         if (startYear == endYear && startMonth == endMonth) {
             if (list_big.contains(String.valueOf(month + 1))) {
                 if (endDay > 31) {
@@ -356,19 +362,16 @@ public class WheelTime {
 
         wv_day.setGravity(gravity);
         //时
-        wv_hours = (WheelView) view.findViewById(R.id.hour);
         wv_hours.setAdapter(new NumericWheelAdapter(0, 23));
 
         wv_hours.setCurrentItem(h);
         wv_hours.setGravity(gravity);
         //分
-        wv_minutes = (WheelView) view.findViewById(R.id.min);
         wv_minutes.setAdapter(new NumericWheelAdapter(0, 59));
 
         wv_minutes.setCurrentItem(m);
         wv_minutes.setGravity(gravity);
         //秒
-        wv_seconds = (WheelView) view.findViewById(R.id.second);
         wv_seconds.setAdapter(new NumericWheelAdapter(0, 59));
 
         wv_seconds.setCurrentItem(s);
@@ -519,7 +522,7 @@ public class WheelTime {
         setContentTextSize();
     }
 
-    private void setChangedListener(WheelView wheelView) {
+    protected void setChangedListener(WheelView wheelView) {
         if (mSelectChangeCallback != null) {
             wheelView.setOnItemSelectedListener(new OnItemSelectedListener() {
                 @Override
@@ -532,7 +535,7 @@ public class WheelTime {
     }
 
 
-    private void setReDay(int year_num, int monthNum, int startD, int endD, List<String> list_big, List<String> list_little) {
+    protected void setReDay(int year_num, int monthNum, int startD, int endD, List<String> list_big, List<String> list_little) {
         int currentItem = wv_day.getCurrentItem();
 
 //        int maxItem;
@@ -572,7 +575,7 @@ public class WheelTime {
     }
 
 
-    private void setContentTextSize() {
+    protected void setContentTextSize() {
         wv_day.setTextSize(textSize);
         wv_month.setTextSize(textSize);
         wv_year.setTextSize(textSize);
@@ -687,7 +690,7 @@ public class WheelTime {
      *
      * @return
      */
-    private String getLunarTime() {
+    protected String getLunarTime() {
         StringBuilder sb = new StringBuilder();
         int year = wv_year.getCurrentItem() + startYear;
         int month = 1;
@@ -790,6 +793,112 @@ public class WheelTime {
             this.endMonth = endDate.get(Calendar.MONTH) + 1;
             this.startDay = startDate.get(Calendar.DAY_OF_MONTH);
             this.endDay = endDate.get(Calendar.DAY_OF_MONTH);
+        }
+
+    }
+
+    public void setRangDate(Calendar startDate, Calendar endDate, boolean isAccurate) {
+//        this.isAccurate = isAccurate;
+
+        if(startDate == null && endDate != null) {
+            int year = endDate.get(Calendar.YEAR);
+            int month = endDate.get(Calendar.MONTH) + 1;
+            int day = endDate.get(Calendar.DAY_OF_MONTH);
+            int hour = endDate.get(Calendar.HOUR_OF_DAY);
+            int minute = endDate.get(Calendar.MINUTE);
+            if(year > startYear) {
+                this.endYear = year;
+                this.endMonth = month;
+                this.endDay = day;
+                this.endHour = hour;
+                this.endMinute = minute;
+            } else if(year == startYear) {
+                if(month > startMonth) {
+                    this.endYear = year;
+                    this.endMonth = month;
+                    this.endDay = day;
+                    this.endHour = hour;
+                    this.endMinute = minute;
+                } else if(month == startMonth) {
+                    if(day > startDay) {
+                        this.endYear = year;
+                        this.endMonth = month;
+                        this.endDay = day;
+                        this.endHour = hour;
+                        this.endMinute = minute;
+                    } else if(day == startDay) {
+                        if(hour > startHour) {
+                            this.endYear = year;
+                            this.endMonth = month;
+                            this.endDay = day;
+                            this.endHour = hour;
+                            this.endMinute = minute;
+                        } else if(hour == startHour) {
+                            this.endYear = year;
+                            this.endMonth = month;
+                            this.endDay = day;
+                            this.endHour = hour;
+                            this.endMinute = minute;
+                        }
+                    }
+                }
+            }
+
+        } else if (startDate != null && endDate == null) {
+            int year = startDate.get(Calendar.YEAR);
+            int month = startDate.get(Calendar.MONTH) + 1;
+            int day = startDate.get(Calendar.DAY_OF_MONTH);
+            int hour = startDate.get(Calendar.HOUR_OF_DAY);
+            int minute = startDate.get(Calendar.MINUTE);
+            if(year < endYear) {
+                this.startMonth = month;
+                this.startDay = day;
+                this.startYear = year;
+                this.startHour = hour;
+                this.startMinute = minute;
+            } else if(year == endYear) {
+                if(month < endMonth) {
+                    this.startMonth = month;
+                    this.startDay = day;
+                    this.startYear = year;
+                    this.startHour = hour;
+                    this.startMinute = minute;
+                } else if(month == endMonth) {
+                    if(day < endDay) {
+                        this.startMonth = month;
+                        this.startDay = day;
+                        this.startYear = year;
+                        this.startHour = hour;
+                        this.startMinute = minute;
+                    } else if(day == endDay) {
+                        if(hour < endHour) {
+                            this.startMonth = month;
+                            this.startDay = day;
+                            this.startYear = year;
+                            this.startHour = hour;
+                            this.startMinute = minute;
+                        } else if(hour == endHour) {
+                            this.startMonth = month;
+                            this.startDay = day;
+                            this.startYear = year;
+                            this.startHour = hour;
+                            this.startMinute = minute;
+                        }
+                    }
+                }
+            }
+
+        } else if (startDate != null && endDate != null) {
+            this.startYear = startDate.get(Calendar.YEAR);
+            this.endYear = endDate.get(Calendar.YEAR);
+            this.startMonth = startDate.get(Calendar.MONTH) + 1;
+            this.endMonth = endDate.get(Calendar.MONTH) + 1;
+            this.startDay = startDate.get(Calendar.DAY_OF_MONTH);
+            this.endDay = endDate.get(Calendar.DAY_OF_MONTH);
+            this.startHour = startDate.get(Calendar.HOUR_OF_DAY);
+            this.endHour = endDate.get(Calendar.HOUR_OF_DAY);
+            this.startMinute = startDate.get(Calendar.MINUTE);
+            this.endMinute = endDate.get(Calendar.MINUTE);
         }
 
     }

@@ -67,6 +67,8 @@ public class PickerOptions {
     public String label_year, label_month, label_day, label_hours, label_minutes, label_seconds;//单位
     public int x_offset_year, x_offset_month, x_offset_day, x_offset_hours, x_offset_minutes, x_offset_seconds;//单位
 
+    public boolean isRangeAccurate;
+
 
     public PickerOptions(int buildType) {
         if (buildType == TYPE_PICKER_OPTIONS) {
