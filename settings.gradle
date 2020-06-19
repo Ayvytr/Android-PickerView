@@ -1,2 +1,1 @@
-include ':lib_custompickerview'
 include ':app', ':pickerview', ':wheelview'
