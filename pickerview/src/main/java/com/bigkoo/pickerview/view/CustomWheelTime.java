@@ -347,33 +347,13 @@ public class CustomWheelTime extends WheelTime {
             return getLunarTime();
         }
         StringBuilder sb = new StringBuilder();
-        if(currentYear() == startYear) {
-           /* int i = wv_month.getCurrentItem() + startMonth;
-            System.out.println("i:" + i);*/
-            if((wv_month.getCurrentItem() + startMonth) == startMonth) {
-                sb.append((wv_year.getCurrentItem() + startYear)).append("-")
-                  .append((wv_month.getCurrentItem() + startMonth)).append("-")
-                  .append((wv_day.getCurrentItem() + startDay)).append(" ")
-                  .append(wv_hours.getAdapter().getItem(wv_hours.getCurrentItem())).append(":")
-                  .append(wv_minutes.getAdapter().getItem(wv_minutes.getCurrentItem())).append(":")
-                  .append(wv_seconds.getCurrentItem());
-            } else {
-                sb.append((wv_year.getCurrentItem() + startYear)).append("-")
-                  .append((wv_month.getCurrentItem() + startMonth)).append("-")
-                  .append((wv_day.getCurrentItem() + 1)).append(" ")
-                  .append(wv_hours.getAdapter().getItem(wv_hours.getCurrentItem())).append(":")
-                  .append(wv_minutes.getAdapter().getItem(wv_minutes.getCurrentItem())).append(":")
-                  .append(wv_seconds.getCurrentItem());
-            }
 
-        } else {
-            sb.append((wv_year.getCurrentItem() + startYear)).append("-")
-              .append((wv_month.getCurrentItem() + 1)).append("-")
-              .append((wv_day.getCurrentItem() + 1)).append(" ")
-              .append(wv_hours.getAdapter().getItem(wv_hours.getCurrentItem())).append(":")
-              .append(wv_minutes.getAdapter().getItem(wv_minutes.getCurrentItem())).append(":")
-              .append(wv_seconds.getCurrentItem());
-        }
+        sb.append((wv_year.getCurrentItem() + startYear)).append("-")
+          .append(currentMonth()).append("-")
+          .append(currentDay()).append(" ")
+          .append(wv_hours.getAdapter().getItem(wv_hours.getCurrentItem())).append(":")
+          .append(wv_minutes.getAdapter().getItem(wv_minutes.getCurrentItem())).append(":")
+          .append(wv_seconds.getCurrentItem());
 
         return sb.toString();
     }
