@@ -30,8 +30,8 @@ android {
 //    }
 //}
 //publish {
-//    userOrg = 'contrarywind'//bintray.com 用户名/组织名 user/org name
-//    groupId = 'com.contrarywind'//JCenter上显示的路径 path
+//    userOrg = 'com.contrarywind'//bintray.com 用户名/组织名 user/org name
+//    groupId = 'com.com.contrarywind'//JCenter上显示的路径 path
 //    artifactId = 'Android-PickerView'//项目名称 project name
 //    publishVersion = '4.1.9'//版本号 version code
 //    desc = 'this is a pickerview for android'//项目描述 description
@@ -40,7 +40,7 @@ android {
 
 dependencies {
 //    compile fileTree(include: ['*.jar'], dir: 'libs')
-    api project(path: ':wheelview')
-//    api 'com.contrarywind:wheelview:4.1.0'
+//    api project(path: ':wheelview')
+//    api 'com.com.contrarywind:wheelview:4.1.0'
     implementation 'com.android.support:support-annotations:28.0.0'
 }

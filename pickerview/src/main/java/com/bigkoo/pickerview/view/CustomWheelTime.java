@@ -1,6 +1,5 @@
 package com.bigkoo.pickerview.view;
 
-import android.util.Log;
 import android.view.View;
 
 import com.bigkoo.pickerview.adapter.NumericWheelAdapter;
@@ -23,7 +22,6 @@ public class CustomWheelTime extends WheelTime {
         resetDay();
         resetHour();
         resetMinute();
-        Log.e("tag", "resetTime");
     }
 
     /**
@@ -38,7 +36,6 @@ public class CustomWheelTime extends WheelTime {
      */
     @Override
     protected void setSolar(int year, final int month, int day, int h, int m, int s) {
-        Log.w("tag", "setSolar " + year + " " + month + " " + day + " " + h + " " + m + " " + s);
         setGravity();
 
         selectYear(year);
@@ -171,12 +168,7 @@ public class CustomWheelTime extends WheelTime {
         if(index >= 0 && index < wv_minutes.getItemsCount()) {
             wv_minutes.setCurrentItem(index);
         } else {
-//            index = wv_minutes.getCurrentItem();
-//            if(index >= 0 && index < wv_minutes.getItemsCount()) {
-//                wv_minutes.setCurrentItem(index);
-//            } else {
-                wv_minutes.setCurrentItem(0);
-//            }
+            wv_minutes.setCurrentItem(0);
         }
         wv_minutes.onItemSelected();
     }
@@ -210,12 +202,7 @@ public class CustomWheelTime extends WheelTime {
         if(index >= 0 && index < wv_hours.getItemsCount()) {
             wv_hours.setCurrentItem(index);
         } else {
-//            index = wv_hours.getCurrentItem();
-//            if(index >= 0 && index < wv_hours.getItemsCount()) {
-//                wv_hours.setCurrentItem(index);
-//            } else {
-                wv_hours.setCurrentItem(0);
-//            }
+            wv_hours.setCurrentItem(0);
         }
         wv_hours.onItemSelected();
     }
@@ -225,37 +212,15 @@ public class CustomWheelTime extends WheelTime {
     }
     private int currentHour() {
         return (int) wv_hours.getAdapter().getItem(wv_hours.getCurrentItem());
-//        int index = wv_hours.getCurrentItem();
-//        int currentHour = index;
-//        if(currentYear() == startYear && currentMonth() == startMonth && currentDay() == startDay) {
-//            currentHour = index + startHour;
-//        }
-//        return currentHour;
     }
 
     private int currentDay() {
         return (int) wv_day.getAdapter().getItem(wv_day.getCurrentItem());
-//        int index = wv_day.getCurrentItem();
-//        int currentDay = index + 1;
-//        int currentYear = currentYear();
-//        int currentMonth = currentMonth();
-//        if(currentYear == startYear && currentMonth == startMonth) {
-//            currentDay = index + startDay;
-//        }
-//        return currentDay;
     }
 
 
     private int currentMonth() {
         return (int) wv_month.getAdapter().getItem(wv_month.getCurrentItem());
-//        int month = wv_month.getCurrentItem();
-//        int currentYear = currentYear();
-//        if(currentYear == startYear) {
-//            month += startMonth;
-//        } else {
-//            month += 1;
-//        }
-//        return month;
     }
 
     private void resetDay() {
@@ -299,12 +264,7 @@ public class CustomWheelTime extends WheelTime {
         if(index >= 0 && index < wv_day.getItemsCount()) {
             wv_day.setCurrentItem(index);
         } else {
-//            index = wv_day.getCurrentItem();
-//            if(index >= 0 && index < wv_day.getItemsCount()) {
-//                wv_day.setCurrentItem(index);
-//            } else {
-                wv_day.setCurrentItem(0);
-//            }
+            wv_day.setCurrentItem(0);
         }
         wv_day.onItemSelected();
     }
@@ -323,14 +283,7 @@ public class CustomWheelTime extends WheelTime {
         if(index >= 0 && index < wv_month.getItemsCount()) {
             wv_month.setCurrentItem(index);
         } else {
-//            if(wv_month.getItemsCount() > 0) {
-//                index = wv_month.getCurrentItem();
-//                if(index >= 0 && index < wv_month.getItemsCount()) {
-//                    wv_month.setCurrentItem(index);
-//                } else {
-                    wv_month.setCurrentItem(0);
-//                }
-//            }
+            wv_month.setCurrentItem(0);
         }
         wv_month.onItemSelected();
     }
@@ -463,15 +416,5 @@ public class CustomWheelTime extends WheelTime {
             this.endMinute = endDate.get(Calendar.MINUTE);
         }
 
-    }
-
-
-    enum TimeType {
-        YEAR,
-        MONTH,
-        DAY,
-        HOUR,
-        MINUTE,
-        SECOND
     }
 }

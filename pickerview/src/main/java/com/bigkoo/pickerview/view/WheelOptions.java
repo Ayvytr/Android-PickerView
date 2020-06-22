@@ -6,10 +6,11 @@ import android.view.View;
 import com.bigkoo.pickerview.R;
 import com.bigkoo.pickerview.adapter.ArrayWheelAdapter;
 import com.bigkoo.pickerview.listener.OnOptionsSelectChangeListener;
-import com.contrarywind.listener.OnItemSelectedListener;
-import com.contrarywind.view.WheelView;
 
 import java.util.List;
+
+import com.contrarywind.listener.OnItemSelectedListener;
+import com.contrarywind.view.WheelView;
 
 public class WheelOptions<T> {
     private View view;

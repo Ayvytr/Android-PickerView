@@ -1,9 +1,9 @@
 package com.bigkoo.pickerviewdemo.bean;
 
 
-import com.contrarywind.interfaces.IPickerViewData;
-
 import java.util.List;
+
+import com.contrarywind.interfaces.IPickerViewData;
 
 /**
  * TODO<json数据源>

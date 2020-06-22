@@ -1,8 +1,9 @@
 package com.bigkoo.pickerview.adapter;
 
-import com.contrarywind.adapter.WheelAdapter;
 
 import java.util.List;
+
+import com.contrarywind.adapter.WheelAdapter;
 
 /**
  * The simple Array wheel adapter

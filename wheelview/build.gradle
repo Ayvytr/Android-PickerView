@@ -31,8 +31,8 @@ android {
 //    }
 //}
 //publish {
-//    userOrg = 'contrarywind'//bintray.com 用户名/组织名 user/org name
-//    groupId = 'com.contrarywind'//JCenter上显示的路径 path
+//    userOrg = 'com.contrarywind'//bintray.com 用户名/组织名 user/org name
+//    groupId = 'com.com.contrarywind'//JCenter上显示的路径 path
 //    artifactId = 'wheelview'//项目名称 project name
 //    publishVersion = '4.1.0'//版本号 version code
 //    desc = 'this is a wheelview for android'//项目描述 description
