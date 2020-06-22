@@ -24,7 +24,7 @@ android {
 
 dependencies {
 //    compile fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':pickerview')
+    implementation project(':lib_pickerview')
 //   implementation 'com.com.contrarywind:Android-PickerView:4.1.9'
 //    implementation 'com.com.contrarywind:wheelview:4.1.0'
     implementation 'com.android.support:appcompat-v7:26.1.0'

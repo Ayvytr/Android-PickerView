@@ -1,2 +1,2 @@
-include ':app', ':pickerview'
+include ':app', ':lib_pickerview'
 //include ':wheelview'
